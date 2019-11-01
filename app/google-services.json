@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1090411277590",
+    "firebase_url": "https://cookietracker-2273c.firebaseio.com",
+    "project_id": "cookietracker-2273c",
+    "storage_bucket": "cookietracker-2273c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1090411277590:android:72df1610e484449f87f437",
+        "android_client_info": {
+          "package_name": "com.legitzxdevelopment.cookietracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1090411277590-76ehec26hbqdm199fjv0vngiktp1g064.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.legitzxdevelopment.cookietracker",
+            "certificate_hash": "b3e027ba976406ee0394a9a0827bd9e4d5138db4"
+          }
+        },
+        {
+          "client_id": "1090411277590-p6f21i3ghngsdce1q6mumpn9ogphpju2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrgBfBXAv9Qk67axxhSpVM-8ih3I8q6hY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1090411277590-p6f21i3ghngsdce1q6mumpn9ogphpju2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
