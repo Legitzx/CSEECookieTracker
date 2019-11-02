@@ -1,6 +1,8 @@
 package com.legitzxdevelopment.cookietracker;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable { // Able to pass this object through intents
     private String username; // Username
     private String password; // Password
     private String name; // Name
