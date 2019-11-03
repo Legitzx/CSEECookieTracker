@@ -128,6 +128,7 @@ public class AdminAddStudentActivity extends AppCompatActivity {
                             .addListenerForSingleValueEvent(new ValueEventListener() { // This will iterate through each child of User
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    boolean check = false;
                                     for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                         String id = snapshot.child("id").getValue().toString();
 
@@ -135,7 +136,13 @@ public class AdminAddStudentActivity extends AppCompatActivity {
                                             snapshot.getRef().removeValue();
 
                                             Toast.makeText(AdminAddStudentActivity.this, "Student removed", Toast.LENGTH_SHORT).show();
+                                            check = true;
+                                            break;
                                         }
+                                    }
+
+                                    if(!check) {
+                                        Toast.makeText(AdminAddStudentActivity.this, "Student not found", Toast.LENGTH_SHORT).show();
                                     }
                                 }
 
@@ -147,13 +154,5 @@ public class AdminAddStudentActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    public void deleteStudent(String studentId) {
-        DatabaseReference dStudent = FirebaseDatabase.getInstance().getReference("User").child(studentId);
-
-        dStudent.removeValue();
-
-        Toast.makeText(this, "Student removed", Toast.LENGTH_LONG).show();
     }
 }
