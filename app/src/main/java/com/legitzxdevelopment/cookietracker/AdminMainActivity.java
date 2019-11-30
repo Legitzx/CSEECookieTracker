@@ -28,6 +28,7 @@ public class AdminMainActivity extends AppCompatActivity {
     private boolean accessible = false; // Checks is a user is loaded
     private String currentId = "";
 
+    // TODO: Add list of students name - id / Add % Exam Boost so sep can see/add/subtract
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,6 +143,8 @@ public class AdminMainActivity extends AppCompatActivity {
     }
 
     public void getStudent(final String realId) {
+        accessible = false;
+
         final TextView amountCookies = findViewById(R.id.amountCookies);
         final TextView amountHomework = findViewById(R.id.amountHomework);
         final TextView amountQuiz = findViewById(R.id.amountQuiz);
@@ -168,7 +171,8 @@ public class AdminMainActivity extends AppCompatActivity {
                                 currentId = realId;
                                 break;
                             }
-
+                        }
+                        if(!accessible) {
                             Toast.makeText(AdminMainActivity.this, "Student with the id of: " + realId + " does not exist!", Toast.LENGTH_SHORT).show();
                             getStudentVisual.setImageResource(R.drawable.cross);
                             amountCookies.setText("Cookies: " + "");

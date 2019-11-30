@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
                         .addListenerForSingleValueEvent(new ValueEventListener() { // This will iterate through each child of User
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                boolean check = false;
                                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                     String username = snapshot.child("username").getValue().toString(); // Grabs `username` from the database
                                     String password = snapshot.child("password").getValue().toString(); // Grabs `password` from the database
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                                     if(username.equals(usernameStr) && password.equals(passwordStr)) { // Check to see if a user with this username/password combo exists
+                                        check = true;
                                         user = snapshot.getValue(User.class);
 
                                         Toast.makeText(MainActivity.this, "Welcome back, " + user.getName() + "!", Toast.LENGTH_SHORT).show();
@@ -68,7 +70,8 @@ public class MainActivity extends AppCompatActivity {
                                             openStudentMenu();
                                         }
                                     }
-
+                                }
+                                if(!check) {
                                     Toast.makeText(MainActivity.this, "Wrong username or password", Toast.LENGTH_SHORT).show();
                                 }
                             }
