@@ -28,7 +28,7 @@ public class AdminMainActivity extends AppCompatActivity {
     private boolean accessible = false; // Checks is a user is loaded
     private String currentId = "";
 
-    // TODO: Add list of students name - id / Add % Exam Boost so sep can see/add/subtract
+    // TODO: Add list of students name - id 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +55,9 @@ public class AdminMainActivity extends AppCompatActivity {
 
         final FloatingActionButton addQuiz = findViewById(R.id.addQuiz);
         final FloatingActionButton removeQuiz = findViewById(R.id.removeQuiz);
+
+        final FloatingActionButton addBoost = findViewById(R.id.addBoost);
+        final FloatingActionButton removeBoost = findViewById(R.id.removeBoost);
 
         // Welcome message at bottom left
         TextView welcome = findViewById(R.id.adminWelcomeTextView);
@@ -140,6 +143,24 @@ public class AdminMainActivity extends AppCompatActivity {
             }
         });
 
+        addBoost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(accessible) {
+                    editBoost(1, currentId, true);
+                }
+            }
+        });
+
+        removeBoost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(accessible) {
+                    editBoost(1, currentId, false);
+                }
+            }
+        });
+
     }
 
     public void getStudent(final String realId) {
@@ -148,6 +169,7 @@ public class AdminMainActivity extends AppCompatActivity {
         final TextView amountCookies = findViewById(R.id.amountCookies);
         final TextView amountHomework = findViewById(R.id.amountHomework);
         final TextView amountQuiz = findViewById(R.id.amountQuiz);
+        final TextView amountBoost = findViewById(R.id.amountBoost);
         final ImageView getStudentVisual = findViewById(R.id.getStudentVisual);
 
         myRef.child("User")
@@ -159,6 +181,7 @@ public class AdminMainActivity extends AppCompatActivity {
                             String cookies = snapshot.child("cookies").getValue().toString();
                             String hw = snapshot.child("hwPass").getValue().toString();
                             String quiz = snapshot.child("quizPass").getValue().toString();
+                            String boost = snapshot.child("boost").getValue().toString();
 
 
                             if(id.equals(realId)) { // Check to see if a user with this username/password combo exists
@@ -166,6 +189,7 @@ public class AdminMainActivity extends AppCompatActivity {
                                 amountCookies.setText("Cookies: " + cookies);
                                 amountHomework.setText("HW Passes: " + hw);
                                 amountQuiz.setText("Quiz Passes: " + quiz);
+                                amountBoost.setText("Exam Boost: " + boost);
                                 accessible = true; // We are ready to add/remove
 
                                 currentId = realId;
@@ -175,9 +199,10 @@ public class AdminMainActivity extends AppCompatActivity {
                         if(!accessible) {
                             Toast.makeText(AdminMainActivity.this, "Student with the id of: " + realId + " does not exist!", Toast.LENGTH_SHORT).show();
                             getStudentVisual.setImageResource(R.drawable.cross);
-                            amountCookies.setText("Cookies: " + "");
-                            amountHomework.setText("HW Passes: " + "");
-                            amountQuiz.setText("Quiz Passes: " + "");
+                            amountCookies.setText("Cookies: ");
+                            amountHomework.setText("HW Passes: ");
+                            amountQuiz.setText("Quiz Passes: ");
+                            amountBoost.setText("Exam Boost: ");
                             accessible = false; // Not ready to add/remove
                         }
                     }
@@ -364,11 +389,11 @@ public class AdminMainActivity extends AppCompatActivity {
                             int totalQuiz = 0;
                             for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                 String id = snapshot.child("id").getValue().toString();
-                                int oldHomework = Integer.parseInt(snapshot.child("quizPass").getValue().toString());
+                                int oldQuiz = Integer.parseInt(snapshot.child("quizPass").getValue().toString());
                                 String name = snapshot.child("name").getValue().toString();
 
                                 if(id.equals(realId)) {
-                                    totalQuiz = oldHomework + numQuiz;
+                                    totalQuiz = oldQuiz + numQuiz;
 
                                     amountQuiz.setText("Quiz Passes: " + totalQuiz);
 
@@ -399,16 +424,95 @@ public class AdminMainActivity extends AppCompatActivity {
                             int totalQuiz = 0;
                             for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                 String id = snapshot.child("id").getValue().toString();
-                                int oldHomework = Integer.parseInt(snapshot.child("quizPass").getValue().toString());
+                                int oldQuiz = Integer.parseInt(snapshot.child("quizPass").getValue().toString());
                                 String name = snapshot.child("name").getValue().toString();
 
                                 if(id.equals(realId)) {
-                                    totalQuiz = oldHomework - numQuiz;
+                                    totalQuiz = oldQuiz - numQuiz;
 
                                     amountQuiz.setText("Quiz Passes: " + totalQuiz);
 
                                     snapshot.getRef().child("quizPass").setValue(totalQuiz);
                                     Toast.makeText(AdminMainActivity.this, "Success: Removed " + numQuiz + " quiz pass(es) from " + name, Toast.LENGTH_SHORT).show();
+                                    check = true;
+                                    break;
+                                }
+                            }
+
+                            if(!check) {
+                                Toast.makeText(AdminMainActivity.this, "Student not found", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+        }
+    }
+
+    public void editBoost(final int numBoost, final String realId, final boolean addBoost) {
+        final TextView amountBoost = findViewById(R.id.amountBoost);
+
+        if(addBoost) { // Add Homework passes from id
+            // Grab amount of homework passes from user
+            // Then we will parseInt and add numHomework to it
+            // finally we will update the value
+
+            myRef.child("User")
+                    .addListenerForSingleValueEvent(new ValueEventListener() { // This will iterate through each child of User
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            boolean check = false;
+                            int totalBoost = 0;
+                            for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                String id = snapshot.child("id").getValue().toString();
+                                int oldBoost = Integer.parseInt(snapshot.child("boost").getValue().toString());
+                                String name = snapshot.child("name").getValue().toString();
+
+                                if(id.equals(realId)) {
+                                    totalBoost = oldBoost + numBoost;
+
+                                    amountBoost.setText("Exam Boost: " + totalBoost);
+
+                                    snapshot.getRef().child("boost").setValue(totalBoost);
+                                    Toast.makeText(AdminMainActivity.this, "Success: Added " + numBoost + "% Exam Boost to " + name, Toast.LENGTH_SHORT).show();
+                                    check = true;
+                                    break;
+                                }
+                            }
+
+                            if(!check) {
+                                Toast.makeText(AdminMainActivity.this, "Student not found", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+        } else { // Remove Homework
+            myRef.child("User")
+                    .addListenerForSingleValueEvent(new ValueEventListener() { // This will iterate through each child of User
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            boolean check = false;
+                            int totalBoost = 0;
+                            for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                String id = snapshot.child("id").getValue().toString();
+                                int oldBoost = Integer.parseInt(snapshot.child("boost").getValue().toString());
+                                String name = snapshot.child("name").getValue().toString();
+
+                                if(id.equals(realId)) {
+                                    totalBoost = oldBoost - numBoost;
+
+                                    amountBoost.setText("Exam Boost: " + totalBoost);
+
+                                    snapshot.getRef().child("boost").setValue(totalBoost);
+                                    Toast.makeText(AdminMainActivity.this, "Success: Removed " + numBoost + "% Exam Boost from " + name, Toast.LENGTH_SHORT).show();
                                     check = true;
                                     break;
                                 }
