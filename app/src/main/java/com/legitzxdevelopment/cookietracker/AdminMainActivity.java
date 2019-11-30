@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +21,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
 
 public class AdminMainActivity extends AppCompatActivity {
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -28,14 +34,15 @@ public class AdminMainActivity extends AppCompatActivity {
     private boolean accessible = false; // Checks is a user is loaded
     private String currentId = "";
 
-    // TODO: Add list of students name - id 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_main);
 
         User user = (User) getIntent().getSerializableExtra("User");
+
+        // Adds the list at the bottom of the app ( id - student )
+        addDirectory();
 
         // Add Student
         final Button addStudent = findViewById(R.id.addStudentButton);
@@ -58,6 +65,8 @@ public class AdminMainActivity extends AppCompatActivity {
 
         final FloatingActionButton addBoost = findViewById(R.id.addBoost);
         final FloatingActionButton removeBoost = findViewById(R.id.removeBoost);
+
+        final ImageView refreshScollView = findViewById(R.id.refreshScrollView);
 
         // Welcome message at bottom left
         TextView welcome = findViewById(R.id.adminWelcomeTextView);
@@ -160,6 +169,18 @@ public class AdminMainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        refreshScollView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final TextView scrollTextView = findViewById(R.id.scrollViewTextView);
+                scrollTextView.setText(""); // Deletes old info
+
+                addDirectory(); // Refreshes list at the bottom of page
+            }
+        });
+
+
 
     }
 
@@ -529,6 +550,146 @@ public class AdminMainActivity extends AppCompatActivity {
                         }
                     });
         }
+    }
+
+    public void addDirectory() {
+        final TextView scrollTextView = findViewById(R.id.scrollViewTextView);
+
+
+        // Ninth Grade
+        myRef.child("User")
+                .addListenerForSingleValueEvent(new ValueEventListener() { // This will iterate through each child of User
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        HashMap<String, String> ninth = new HashMap<>();
+
+                        for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            String id = snapshot.child("id").getValue().toString();
+                            String name = snapshot.child("name").getValue().toString();
+                            String grade = snapshot.child("grade").getValue().toString();
+
+                            if(grade.equals("9")) {
+                                ninth.put(id, name);
+                            }
+                        }
+
+                        scrollTextView.append("-- 9th -- " + "\n");
+
+                        final StringBuilder stringBuilder = new StringBuilder();
+
+                        for(Map.Entry entry: ninth.entrySet()){
+                            stringBuilder.append(entry.getKey() + " : " + entry.getValue() + "\n");
+                        }
+
+                        scrollTextView.append(stringBuilder.toString());
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+        // Tenth
+        myRef.child("User")
+                .addListenerForSingleValueEvent(new ValueEventListener() { // This will iterate through each child of User
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        HashMap<String, String> tenth = new HashMap<>();
+
+                        for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            String id = snapshot.child("id").getValue().toString();
+                            String name = snapshot.child("name").getValue().toString();
+                            String grade = snapshot.child("grade").getValue().toString();
+
+                            if(grade.equals("10")) {
+                                tenth.put(id, name);
+                            }
+                        }
+
+                        scrollTextView.append("-- 10th -- " + "\n");
+
+                        final StringBuilder stringBuilder = new StringBuilder();
+
+                        for(Map.Entry entry: tenth.entrySet()){
+                            stringBuilder.append(entry.getKey() + " : " + entry.getValue() + "\n");
+                        }
+
+                        scrollTextView.append(stringBuilder.toString());
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+        // Eleventh
+        myRef.child("User")
+                .addListenerForSingleValueEvent(new ValueEventListener() { // This will iterate through each child of User
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        HashMap<String, String> eleventh = new HashMap<>();
+
+                        for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            String id = snapshot.child("id").getValue().toString();
+                            String name = snapshot.child("name").getValue().toString();
+                            String grade = snapshot.child("grade").getValue().toString();
+
+                            if(grade.equals("11")) {
+                                eleventh.put(id, name);
+                            }
+                        }
+
+                        scrollTextView.append("-- 11th -- " + "\n");
+
+                        final StringBuilder stringBuilder = new StringBuilder();
+
+                        for(Map.Entry entry: eleventh.entrySet()){
+                            stringBuilder.append(entry.getKey() + " : " + entry.getValue() + "\n");
+                        }
+
+                        scrollTextView.append(stringBuilder.toString());
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+        // Twelfth
+        myRef.child("User")
+                .addListenerForSingleValueEvent(new ValueEventListener() { // This will iterate through each child of User
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        HashMap<String, String> twelfth = new HashMap<>();
+
+                        for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            String id = snapshot.child("id").getValue().toString();
+                            String name = snapshot.child("name").getValue().toString();
+                            String grade = snapshot.child("grade").getValue().toString();
+
+                            if(grade.equals("12")) {
+                                twelfth.put(id, name);
+                            }
+                        }
+
+                        scrollTextView.append("-- 12th -- " + "\n");
+
+                        final StringBuilder stringBuilder = new StringBuilder();
+
+                        for(Map.Entry entry: twelfth.entrySet()){
+                            stringBuilder.append(entry.getKey() + " : " + entry.getValue() + "\n");
+                        }
+
+                        scrollTextView.append(stringBuilder.toString());
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
     }
 
     public void openAddStudent() {

@@ -247,4 +247,48 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.29000002" />
 
+    <ScrollView
+        android:id="@+id/studentScrollView"
+        android:layout_width="409dp"
+        android:layout_height="118dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/addStudentButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/amountBoost">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toTopOf="@+id/addStudentButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/amountBoost">
+
+            <TextView
+                android:id="@+id/scrollViewTextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:configChanges="orientation"
+                android:hardwareAccelerated="false"
+                android:windowSoftInputMode="adjustPan" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/refreshScrollView"
+        android:layout_width="47dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="202dp"
+        android:layout_marginEnd="1dp"
+        android:src="@drawable/refresh"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/adminWelcomeTextView"
+        app:layout_constraintTop_toBottomOf="@+id/addStudentButton"
+        app:layout_constraintVertical_bias="0.59000003" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
