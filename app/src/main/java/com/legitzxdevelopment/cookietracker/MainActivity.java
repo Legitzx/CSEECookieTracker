@@ -62,11 +62,10 @@ public class MainActivity extends AppCompatActivity {
 
                                         if(isAdmin.equals("true")) { // Check to see if this user is a teacher
                                             // Launch admin panel
-
-
                                             openAdminMenu();
                                         } else { // Regular student
                                             // Launch regular panel
+                                            openStudentMenu();
                                         }
                                     }
 
@@ -85,6 +84,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void openAdminMenu() {
         Intent intent = new Intent(this, AdminMainActivity.class);
+        intent.putExtra("User", user);
+        startActivity(intent);
+    }
+
+    public void openStudentMenu() {
+        Intent intent = new Intent(this, StudentMainActivity.class);
         intent.putExtra("User", user);
         startActivity(intent);
     }
