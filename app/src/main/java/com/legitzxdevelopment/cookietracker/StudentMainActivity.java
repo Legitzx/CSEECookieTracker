@@ -2,27 +2,22 @@ package com.legitzxdevelopment.cookietracker;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.core.utilities.Tree;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 
 public class StudentMainActivity extends AppCompatActivity {
@@ -45,6 +40,8 @@ public class StudentMainActivity extends AppCompatActivity {
         TextView homeworkPass = findViewById(R.id.studentMainHomeworkPasses);
         TextView quizPass = findViewById(R.id.studentMainQuizPasses);
 
+        Button goToStudentDonate = findViewById(R.id.donateButton);
+
         final User user = (User) getIntent().getSerializableExtra("User");
 
         // Intial Profile Fetch - Was going to make this a function BUT had issues
@@ -65,6 +62,20 @@ public class StudentMainActivity extends AppCompatActivity {
                 calculateClassRank(String.valueOf(user.getGrade()), String.valueOf(user.getCookies()));
             }
         });
+
+        // Go To StudentDonate
+        goToStudentDonate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openStudentDonate(user);
+            }
+        });
+    }
+
+    public void openStudentDonate(User user) {
+        Intent intent = new Intent(this, StudentDonate.class);
+        intent.putExtra("User", user);
+        startActivity(intent);
     }
 
     public void profileFetch() {

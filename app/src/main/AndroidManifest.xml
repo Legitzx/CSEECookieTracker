@@ -9,12 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".StudentMainActivity"></activity>
+        <activity android:name=".StudentDonate"></activity>
+        <activity android:name=".StudentMainActivity" />
         <activity android:name=".AdminAddStudentActivity" />
-        <activity android:name=".AdminMainActivity"
+        <activity
+            android:name=".AdminMainActivity"
             android:configChanges="orientation"
             android:hardwareAccelerated="false"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
