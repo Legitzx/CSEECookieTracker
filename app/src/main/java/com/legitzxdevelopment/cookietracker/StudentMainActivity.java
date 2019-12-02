@@ -41,6 +41,7 @@ public class StudentMainActivity extends AppCompatActivity {
         TextView quizPass = findViewById(R.id.studentMainQuizPasses);
 
         Button goToStudentDonate = findViewById(R.id.donateButton);
+        Button goToStudentMarketplace = findViewById(R.id.marketplaceButton);
 
         final User user = (User) getIntent().getSerializableExtra("User");
 
@@ -70,6 +71,14 @@ public class StudentMainActivity extends AppCompatActivity {
                 openStudentDonate(user);
             }
         });
+
+        // Go to StudentMarketplace
+        goToStudentMarketplace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openStudentMarketplace(user);
+            }
+        });
     }
 
     public void openStudentDonate(User user) {
@@ -77,6 +86,13 @@ public class StudentMainActivity extends AppCompatActivity {
         intent.putExtra("User", user);
         startActivity(intent);
     }
+
+    public void openStudentMarketplace(User user) {
+        Intent intent = new Intent(this, StudentMarketplace.class);
+        intent.putExtra("User", user);
+        startActivity(intent);
+    }
+
 
     public void profileFetch() {
         final TextView nameTextView = findViewById(R.id.tv_name);

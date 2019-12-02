@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".StudentDonate"></activity>
+        <activity android:name=".StudentMarketplace"></activity>
+        <activity android:name=".StudentDonate" />
         <activity android:name=".StudentMainActivity" />
         <activity android:name=".AdminAddStudentActivity" />
         <activity
